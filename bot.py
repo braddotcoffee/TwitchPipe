@@ -1,4 +1,5 @@
 import yaml
+import logging
 from twitchio.ext import commands
 from discord_webhook import DiscordWebhook
 
@@ -18,8 +19,8 @@ class Bot(commands.Bot):
     async def event_ready(self):
         # Notify us when everything is ready!
         # We are logged in and ready to chat and use commands...
-        print(f"Logged in as | {self.nick}")
-        print(f"User id is | {self.user_id}")
+        logging.info(f"Logged in as | {self.nick}")
+        logging.info(f"User id is | {self.user_id}")
 
     async def event_message(self, message):
         # Messages with echo set to True are messages sent by the bot...
@@ -36,6 +37,7 @@ class Bot(commands.Bot):
 
 
 def main():
+    logging.basicConfig(level=logging.INFO)
     config = load_config()
     bot = Bot(config["twitch"]["access_token"], config["discord"]["webhook_url"])
     bot.run()
